@@ -71,12 +71,9 @@ void adjustRGB(rgb_t* ptr, int mode) {
     break;
   case 's':
     if (isrgbEqual(ptr, &strobeTarget)) {
-//      int ran = possibleColors[random(COLORNUM)].red;
-//      Serial.println(ran);
       strobeTarget = possibleColors[random(COLORNUM)];
     } else {
       rgbStep(ptr, &strobeTarget);
-//      printRgb(ptr);
     }
     break;
   }
@@ -104,6 +101,7 @@ bool isrgbEqual(rgb_t* rgb1, rgb_t* rgb2) {
   return equal;
 }
 
+// For debugging
 //void printRgb(rgb_t* currRgb) {
 //  Serial.print("rgb: ");
 //  Serial.print(currRgb->blue);
@@ -118,9 +116,9 @@ void rgbStep(rgb_t* currentRgb, rgb_t* targetRgb) {
 }
 
 void colorStep(int* color, int target) {
-//  Serial.println(target);
   if (*color != target) {
     if (abs(*color - target) > 5 && wait < 100) {
+      // wait < 100 prevents rgb color brightness from 'jumping' at higher wait times
       *color += *color > target ? -5 : 5;
     } else {
       *color += *color > target ? -1 : 1;
@@ -132,7 +130,6 @@ void colorStep(int* color, int target) {
 }
 
 void setup() {
-  // put your setup code here, to run once:
   pinMode(bluePin, OUTPUT); 
   pinMode(greenPin, OUTPUT); 
   pinMode(redPin, OUTPUT); 
@@ -142,7 +139,7 @@ void setup() {
 }
 
 void loop() {
-  //Instructions
+  //Print instructions to serial port
   if (Serial && !isOpen) {
     delay(100);
     isOpen = true;
